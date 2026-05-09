@@ -1,15 +1,20 @@
 package com.example.smilecaremobile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -67,7 +72,44 @@ public class InscriptionActivity extends AppCompatActivity {
                 SQLiteManager db = new SQLiteManager(this);
                 db.insertUtilisateur(nouvelUtilisateur);
 
-                // On va appeler l'API ici plus tard
+                API api = new API();
+
+                JSONObject jsonBody = new JSONObject();
+                try {
+                    jsonBody.put("name", nouvelUtilisateur.getNom());
+                    jsonBody.put("prenom", nouvelUtilisateur.getPrenom());
+                    jsonBody.put("email", etEmail.getText().toString().trim());
+                    jsonBody.put("password", nouvelUtilisateur.getMdp());
+                    jsonBody.put("id_role", 4);
+                    jsonBody.put("dateNaissance", etDateNaissance.getText().toString().trim());
+                    jsonBody.put("addresse", nouvelUtilisateur.getAdresse());
+                    jsonBody.put("telephone", nouvelUtilisateur.getTelephone());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                api.post(new API.ApiCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(InscriptionActivity.this,
+                                    getString(R.string.inscription_succes),
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(InscriptionActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(InscriptionActivity.this,
+                                    getString(R.string.error_network),
+                                    Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }, "api/utilisateurAdd", jsonBody.toString(), "");
             }
         });
     }
