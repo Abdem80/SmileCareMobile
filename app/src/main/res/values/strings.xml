@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SmileCareMobile</string>
+    <string name="btn_choisir_photo">Choisir une photo</string>
+    <string name="hint_nom">Nom</string>
+    <string name="hint_prenom">Prénom</string>
+    <string name="hint_email">Courriel</string>
+    <string name="hint_mdp">Mot de passe</string>
+    <string name="hint_date_naissance">Date de naissance (AAAA-MM-JJ)</string>
+    <string name="hint_adresse">Adresse</string>
+    <string name="hint_telephone">Téléphone</string>
+    <string name="hint_num_assurance">Numéro d\'assurance</string>
+    <string name="btn_inscrire">S\'inscrire</string>
+    <string name="titre_inscription">Mon compte</string>
 </resources>
