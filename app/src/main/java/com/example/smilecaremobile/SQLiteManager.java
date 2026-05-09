@@ -13,15 +13,16 @@
 
 package com.example.smilecaremobile;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class SQLiteManager extends SQLiteOpenHelper {
     private static final String NOM_BD  = "smilecare.db";
     private static final int    VERSION = 1;
 
-    public DatabaseHelper(Context context) {
+    public SQLiteManager(Context context) {
         super(context, NOM_BD, null, VERSION);
     }
 
@@ -105,5 +106,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Utilisateur");
         db.execSQL("DROP TABLE IF EXISTS Role");
         onCreate(db);
+    }
+
+    public void insertUtilisateur(Utilisateur utilisateur) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("nom", utilisateur.getNom());
+        values.put("prenom", utilisateur.getPrenom());
+        values.put("photo", utilisateur.getPhoto());
+        if (utilisateur.getDate_naissance() != null) {
+            values.put("date_naissance", utilisateur.getDate_naissance().getTime());
+        }
+        values.put("adresse", utilisateur.getAdresse());
+        values.put("telephone", utilisateur.getTelephone());
+        values.put("mdp", utilisateur.getMdp());
+        values.put("num_assurance", utilisateur.getNum_assurance());
+        values.put("id_role", utilisateur.getId_role());
+
+        db.insert("Utilisateur", null, values);
+        db.close();
     }
 }

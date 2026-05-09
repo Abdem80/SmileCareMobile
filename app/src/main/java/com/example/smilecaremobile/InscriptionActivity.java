@@ -64,8 +64,8 @@ public class InscriptionActivity extends AppCompatActivity {
                         etNumAssurance.getText().toString().trim(),
                         4
                 );
-                UtilisateurDAO dao = new UtilisateurDAO(this);
-                dao.insertUtilisateur(nouvelUtilisateur);
+                SQLiteManager db = new SQLiteManager(this);
+                db.insertUtilisateur(nouvelUtilisateur);
 
                 // On va appeler l'API ici plus tard
             }
