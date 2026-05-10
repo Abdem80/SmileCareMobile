@@ -17,7 +17,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+/**
+ * Gestionnaire de la base de données locale SQLite de SmileCare.
+ * Étend SQLiteOpenHelper pour créer et gérer toutes les tables locales.
+ * Utilisé pour stocker les données en mode hors ligne.
+ */
 public class SQLiteManager extends SQLiteOpenHelper {
     private static final String NOM_BD  = "smilecare.db";
     private static final int    VERSION = 1;
@@ -108,6 +112,11 @@ public class SQLiteManager extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Insère un nouvel utilisateur dans la base de données locale.
+     *
+     * @param utilisateur L'objet Utilisateur à insérer
+     */
     public void insertUtilisateur(Utilisateur utilisateur) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

@@ -1,3 +1,16 @@
+/****************************************
+ Fichier : InscriptionActivity.java
+ Auteur : Abdoulaye Dembele
+ Fonctionnalité : MGC01 — Créer compte client
+ Date : 2026-05-09
+ Vérification :
+ Date        Nom         Approuvé
+ =========================================================
+ Historique de modifications :
+ Date        Nom         Description
+ =========================================================
+ ****************************************/
+
 package com.example.smilecaremobile;
 
 import android.content.Intent;
@@ -20,7 +33,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+/**
+ * Activité d'inscription d'un nouveau client dans SmileCare.
+ * Gère la validation du formulaire, la sauvegarde en BD locale
+ * et l'envoi des données à l'API Laravel via POST /api/utilisateurAdd.
+ */
 public class InscriptionActivity extends AppCompatActivity {
     private ImageView ivPhoto;
     private EditText etNom, etPrenom, etEmail, etMdp,
@@ -113,7 +130,13 @@ public class InscriptionActivity extends AppCompatActivity {
             }
         });
     }
-
+    /**
+     * Valide les champs du formulaire d'inscription.
+     * Vérifie que les champs obligatoires sont remplis et que
+     * le format du courriel et de la date de naissance sont corrects.
+     *
+     * @return {@code true} si tous les champs sont valides, {@code false} sinon
+     */
     private boolean validerFormulaire() {
 
         if (etNom.getText().toString().isEmpty()) {
