@@ -86,7 +86,7 @@ public class InscriptionActivity extends AppCompatActivity {
                         etNumAssurance.getText().toString().trim(),
                         4
                 );
-                SQLiteManager db = new SQLiteManager(this);
+                SQLiteManager db = SQLiteManager.instanceOfDatabase(this);
                 db.insertUtilisateur(nouvelUtilisateur);
 
                 API api = new API();

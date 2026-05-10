@@ -30,6 +30,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     // -------------------------------------------------------
     private static final String NOM_BD  = "smilecare.db";
     private static final int    VERSION = 1;
+    private static SQLiteManager sqLiteManager;
 
     // -------------------------------------------------------
     // Table : Role
@@ -98,6 +99,20 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public SQLiteManager(Context context) {
         super(context, NOM_BD, null, VERSION);
     }
+
+    /**
+     * Retourne l'instance unique du SQLiteManager (pattern Singleton).
+     * Crée l'instance si elle n'existe pas encore.
+     *
+     * @param context Le contexte Android
+     * @return L'instance unique de SQLiteManager
+     */
+    public static SQLiteManager instanceOfDatabase(Context context) {
+        if (sqLiteManager == null)
+            sqLiteManager = new SQLiteManager(context);
+        return sqLiteManager;
+    }
+
 
     // -------------------------------------------------------
     // onCreate : création des tables
