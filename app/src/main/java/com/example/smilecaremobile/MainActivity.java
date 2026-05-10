@@ -32,5 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnInscription = findViewById(R.id.btn_test_inscription);
+        btnInscription.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, InscriptionActivity.class);
+            startActivity(intent);
+        });
     }
 }

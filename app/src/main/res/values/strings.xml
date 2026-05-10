@@ -16,4 +16,6 @@
     <string name="error_date_invalide">Format invalide (AAAA-MM-JJ)</string>
     <string name="inscription_succes">Compte créé avec succès !</string>
     <string name="error_network">Erreur réseau. Vérifiez votre connexion.</string>
+    <string name="button">Button</string>
+    <string name="s_inscrire">S\'inscrire</string>
 </resources>
