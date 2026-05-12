@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <!-- Permission Internet pour l'API -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -25,10 +26,16 @@
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Activité inscription -->
+        <activity android:name=".InscriptionActivity" />
+
+        <!-- Activité test API -->
+        <activity android:name=".testAPI" />
+
     </application>
 
 </manifest>

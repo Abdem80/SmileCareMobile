@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">SmileCareMobile</string>
+    <string name="app_name">Smile Care</string>
+    <string name="btn_choisir_photo">Choisir une photo</string>
+    <string name="hint_nom">Nom</string>
+    <string name="hint_prenom">Prénom</string>
+    <string name="hint_email">Courriel</string>
+    <string name="hint_mdp">Mot de passe</string>
+    <string name="hint_date_naissance">Date de naissance (AAAA-MM-JJ)</string>
+    <string name="hint_adresse">Adresse</string>
+    <string name="hint_telephone">Téléphone</string>
+    <string name="hint_num_assurance">Numéro d\'assurance</string>
+    <string name="btn_inscrire">S\'inscrire</string>
+    <string name="titre_inscription">Mon compte</string>
+    <string name="error_champ_requis">Ce champ est obligatoire</string>
+    <string name="error_email_invalide">Courriel invalide</string>
+    <string name="error_date_invalide">Format invalide (AAAA-MM-JJ)</string>
+    <string name="inscription_succes">Compte créé avec succès !</string>
+    <string name="error_network">Erreur réseau. Vérifiez votre connexion.</string>
+    <string name="button">Button</string>
+    <string name="s_inscrire">S\'inscrire</string>
 </resources>
