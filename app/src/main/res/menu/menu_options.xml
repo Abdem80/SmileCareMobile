@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/icon_menu"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/menu_compte"
+                android:title="Mon compte"
+                android:icon="@drawable/icon_account"
+                android:orderInCategory="2">
+            </item>
+
+            <item android:id="@+id/menu_paiements"
+                android:title="Mes paiements"
+                android:icon="@drawable/icon_payments"
+                android:orderInCategory="3">
+            </item>
+
+            <item android:id="@+id/menu_logout"
+                android:title="Déconnexion"
+                android:icon="@drawable/icon_logout"
+                android:orderInCategory="4">
+            </item>
+        </menu>
+    </item>
+</menu>

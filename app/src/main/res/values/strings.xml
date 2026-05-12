@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmileCareMobile</string>
+    <string name="app_name">Smile Care</string>
     <string name="btn_choisir_photo">Choisir une photo</string>
     <string name="hint_nom">Nom</string>
     <string name="hint_prenom">Prénom</string>

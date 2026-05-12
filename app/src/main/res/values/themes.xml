@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.SmileCareMobile" parent="Base.Theme.SmileCareMobile" />
+    <style name="toolbarStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/white</item>
+        <item name="android:textColor">@color/bluepain</item>
+        <item name="android:fontFamily">@font/leaguespartan_bold</item>
+    </style>
 </resources>
