@@ -19,7 +19,7 @@ import org.w3c.dom.Text;
 
 public class testAPI extends AppCompatActivity {
 
-    public String token;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +33,8 @@ public class testAPI extends AppCompatActivity {
         });
 
         API api = new API();
-        api.getToken(new API.ApiCallback() {
 
-            @Override
-            public void onSuccess(String response) {
-                runOnUiThread(() -> testAPI.this.token = response);
-            }
-
-            @Override
-            public void onFailure(String error) {
-                runOnUiThread(() -> testAPI.this.token = "null");
-            }
-        });
+        token = getIntent().getStringExtra("token");
 
         TextView tokenView = (TextView) findViewById(R.id.token);
         Button seeTokenBtn = (Button) findViewById(R.id.seeTokenBtn);
@@ -65,35 +55,14 @@ public class testAPI extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(String response) {
-                        runOnUiThread(() -> resultUser.setText(response));
+                        resultUser.setText(response);
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        runOnUiThread(() -> resultUser.setText("Erreur: " + error));
+                        resultUser.setText("Erreur: " + error);
                     }
                 }, "api/utilisateur/" + idUser.getText().toString(), token);
-            }
-        });
-
-        EditText serviceId = (EditText) findViewById(R.id.idService);
-        Button getServiceBtn = (Button) findViewById(R.id.getServiceBtn);
-        TextView resultService = (TextView) findViewById(R.id.resultService);
-        getServiceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                api.get(new API.ApiCallback() {
-
-                    @Override
-                    public void onSuccess(String response) {
-                        runOnUiThread(() -> resultService.setText(response));
-                    }
-
-                    @Override
-                    public void onFailure(String error) {
-                        runOnUiThread(() -> resultService.setText("Erreur: " + error));
-                    }
-                }, "api/services/" + serviceId.getText().toString(), token);
             }
         });
 
@@ -110,7 +79,7 @@ public class testAPI extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String request = "{\"name\":\"" + nom.getText().toString() + "\"," +
+                String body = "{\"name\":\"" + nom.getText().toString() + "\"," +
                         "\"prenom\":\"" + prenom.getText().toString() + "\"," +
                         "\"id_role\":\"" + id_role.getText().toString() + "\"," +
                         "\"dateNaissance\":\"" + dateNaissance.getText().toString() + "\"," +
@@ -121,14 +90,14 @@ public class testAPI extends AppCompatActivity {
                 api.post(new API.ApiCallback() {
                     @Override
                     public void onSuccess(String response) {
-                        System.out.println(request);
+                        System.out.println(body);
                     }
 
                     @Override
                     public void onFailure(String error) {
                         System.out.println("Didn't work");
                     }
-                }, "api/utilisateurAdd", request, token);
+                }, "api/utilisateurAdd", body, token);
             }
         });
     }
