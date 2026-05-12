@@ -74,31 +74,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if(itemId == R.id.menu_compte){
+        //if(itemId == R.id.menu_compte){
 
-        }
-        if(itemId == R.id.menu_paiements){
+        //}
+        //if(itemId == R.id.menu_paiements){
 
-        }
-        if(itemId == R.id.menu_logout){
+        //}
+        //if(itemId == R.id.menu_logout){
 
-        }
+        //}
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v){
-        if (v.getId()==R.id.main_btn_rdv_history){
+        //if (v.getId()==R.id.main_btn_rdv_history){
 
-        }
-        else if (v.getId()==R.id.main_btn_rdv_add){
+        //}
+        //else if (v.getId()==R.id.main_btn_rdv_add){
 
-        }
-        else if (v.getId()==R.id.main_btn_services){
+        //}
+        //else if (v.getId()==R.id.main_btn_services){
 
-        }
-        else if (v.getId()==R.id.main_btn_local){
+        //}
+        //else if (v.getId()==R.id.main_btn_local){
 
-        }
+        //}
     }
 }
