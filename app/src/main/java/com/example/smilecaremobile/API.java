@@ -23,7 +23,7 @@ public class API {
     public static final String URL = "http://10.0.2.2/";
     private final OkHttpClient client = new OkHttpClient.Builder().build();
     public interface ApiCallback{
-        void onSuccess(String response);
+        void onSuccess(String response) throws JSONException;
         void onFailure(String error);
     }
 
@@ -45,10 +45,9 @@ public class API {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()) {
                     String jsonReponse = response.body().string();
-                    System.out.println("Réponse JSON : " + jsonReponse);
+                    System.out.println("Réponse GET JSON : " + jsonReponse);
                     try {
-                        JSONObject jsonObject = new JSONObject(jsonReponse);
-                        callback.onSuccess(jsonObject.getString("data").toString());
+                        callback.onSuccess(jsonReponse);
                     } catch(Exception e) {
                         callback.onFailure("Erreur de parsing JSON");
                     }
@@ -78,7 +77,7 @@ public class API {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()) {
                     String jsonReponse = response.body().string();
-                    System.out.println("Réponse JSON : " + jsonReponse);
+                    System.out.println("Réponse POST JSON : " + jsonReponse);
                     try {
                         JSONObject jsonObject = new JSONObject(jsonReponse);
                         callback.onSuccess(jsonObject.toString());
@@ -110,7 +109,7 @@ public class API {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()) {
                     String jsonReponse = response.body().string();
-                    System.out.println("Réponse JSON : " + jsonReponse);
+                    System.out.println("Réponse DELETE JSON : " + jsonReponse);
                     try {
                         JSONObject jsonObject = new JSONObject(jsonReponse);
                         callback.onSuccess(jsonObject.toString());
@@ -143,7 +142,7 @@ public class API {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 if(response.isSuccessful()) {
                     String jsonReponse = response.body().string();
-                    System.out.println("Réponse JSON : " + jsonReponse);
+                    System.out.println("Réponse TOKEN JSON : " + jsonReponse);
                     try {
                         JSONObject jsonObject = new JSONObject(jsonReponse);
                         callback.onSuccess(jsonObject.getString("SUCCÈS").toString());

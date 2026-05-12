@@ -1,0 +1,136 @@
+package com.example.smilecaremobile;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+
+public class AddRendezVous extends AppCompatActivity {
+
+    private String token;
+    private API api;
+
+    private ArrayList<String> idsOfServices = new ArrayList<>();
+    private ArrayList<String> idsOfDentistes = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_add_rendez_vous);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        api = new API();
+
+        token = getIntent().getStringExtra("token");
+
+        api.get(new API.ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                runOnUiThread(() -> {
+                    ArrayList<String> options = new ArrayList<>();
+
+                    ArrayList<String> names = JSONDataExtractor.ExtractList("name", response);
+                    ArrayList<String> ids = JSONDataExtractor.ExtractList("id", response);
+                    for(int i = 0; i < names.size(); i++) {
+                        options.add(names.get(i));
+                        AddRendezVous.this.idsOfServices.add(ids.get(i));
+                    }
+                    System.out.println(AddRendezVous.this.idsOfServices.toString());
+
+                    Spinner servicesSpinner = (Spinner) findViewById(R.id.services);
+                    ArrayAdapter<String> adapterServices = new ArrayAdapter<String>(AddRendezVous.this, android.R.layout.simple_spinner_item, options);
+                    adapterServices.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    servicesSpinner.setAdapter(adapterServices);
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println("Services didn't work :[");
+            }
+        }, "api/services", token);
+
+        api.get(new API.ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                runOnUiThread(() -> {
+                    ArrayList<String> dentistes = new ArrayList<>();
+
+                    ArrayList<String> names = JSONDataExtractor.ExtractList("name", response);
+                    ArrayList<String> ids = JSONDataExtractor.ExtractList("id", response);
+                    for(int i = 0; i < names.size(); i++) {
+                        dentistes.add(names.get(i).toString());
+                        AddRendezVous.this.idsOfDentistes.add(ids.get(i));
+                    }
+
+                    Spinner dentistesSpinner = (Spinner) findViewById(R.id.dentistes);
+                    ArrayAdapter<String> adapterDentistes = new ArrayAdapter<String>(AddRendezVous.this, android.R.layout.simple_spinner_item, dentistes);
+                    adapterDentistes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    dentistesSpinner.setAdapter(adapterDentistes);
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println("Dentistes didn't work :[");
+            }
+        }, "api/utilisateurs/4", token);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Spinner dentistesSpinner = (Spinner) findViewById(R.id.dentistes);
+        Spinner servicesSpinner = (Spinner) findViewById(R.id.services);
+        EditText dateRDV = (EditText) findViewById(R.id.dateRDV);
+        EditText commentaires = (EditText) findViewById(R.id.commentaire);
+        Button sendBtn = (Button) findViewById(R.id.sendRDV);
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                System.out.println("ID service at " + servicesSpinner.getSelectedItemPosition() + " : " + idsOfServices.get(servicesSpinner.getSelectedItemPosition()));
+                System.out.println("ID dentiste at " + dentistesSpinner.getSelectedItemPosition() + " : " + idsOfDentistes.get(dentistesSpinner.getSelectedItemPosition()));
+                //ID USER WILL ALWAYS BE 1 UNTIL THE LOGIN IS PROPRELY SETUPPED
+                String body = "{\"id_user\":\"" + 1 + "\"," +
+                                "\"id_dentiste\":\"" + idsOfDentistes.get(dentistesSpinner.getSelectedItemPosition()) + "\"," +
+                                "\"id_etat\":\"" + 1 + "\"," +
+                                "\"id_service\":\"" + idsOfServices.get(servicesSpinner.getSelectedItemPosition()) + "\"," +
+                                "\"heure_date\":\"" + dateRDV.getText() + "\"," +
+                                "\"commentaire\":\"" + commentaires.getText() + "\"}";
+
+                api.post(new API.ApiCallback() {
+                    @Override
+                    public void onSuccess(String response) throws JSONException {
+                        runOnUiThread(() -> {
+                            System.out.println(body);
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        System.out.println(error);
+                    }
+                }, "api/rendezvous", body, token);
+            }
+        });
+    }
+}
