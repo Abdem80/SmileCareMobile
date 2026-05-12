@@ -78,25 +78,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v){
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
         if(v.getId()==R.id.button){
-            Intent intent = new Intent(MainActivity.this, testAPI.class);
-            startActivity(intent);
+            intent = new Intent(MainActivity.this, testAPI.class);
         }
         else if(v.getId()==R.id.btn_test_inscription){
-            Intent intent = new Intent(MainActivity.this, InscriptionActivity.class);
-            startActivity(intent);
+            intent = new Intent(MainActivity.this, InscriptionActivity.class);
         }
         //if (v.getId()==R.id.main_btn_rdv_history){
 
         //}
-        //else if (v.getId()==R.id.main_btn_rdv_add){
-
-        //}
+        else if (v.getId()==R.id.main_btn_rdv_add){
+            intent = new Intent(MainActivity.this, AddRendezVous.class);
+        }
         //else if (v.getId()==R.id.main_btn_services){
 
         //}
         //else if (v.getId()==R.id.main_btn_local){
 
         //}
+        startActivity(intent);
     }
 }
