@@ -19,9 +19,6 @@
             android:name=".AddRendezVous"
             android:exported="false" />
         <activity
-            android:name=".testAPI"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>

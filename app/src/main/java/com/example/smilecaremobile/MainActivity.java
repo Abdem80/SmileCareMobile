@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -31,35 +32,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
     //Initialisation des boutons
-        Button rdv_history = findViewById(R.id.main_btn_rdv_history);
-        Button rdv_add = findViewById(R.id.main_btn_rdv_add);
+        ImageButton rdv_history = findViewById(R.id.main_btn_rdv_history);
+        ImageButton rdv_add = findViewById(R.id.main_btn_rdv_add);
         Button services = findViewById(R.id.main_btn_services);
-        Button local = findViewById(R.id.main_btn_local);
+        ImageButton local = findViewById(R.id.main_btn_local);
+        Button apiTestBtn = (Button) findViewById(R.id.button);
+        Button btnInscription = findViewById(R.id.btn_test_inscription);
 
         rdv_history.setOnClickListener(this);
         rdv_add.setOnClickListener(this);
         services.setOnClickListener(this);
         local.setOnClickListener(this);
+        apiTestBtn.setOnClickListener(this);
+        btnInscription.setOnClickListener(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-        });
-
-        Button apiTestBtn = (Button) findViewById(R.id.button);
-        apiTestBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, testAPI.class);
-                startActivity(intent);
-            }
-        });
-
-        Button btnInscription = findViewById(R.id.btn_test_inscription);
-        btnInscription.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, InscriptionActivity.class);
-            startActivity(intent);
         });
     }
 
@@ -88,6 +78,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v){
+        if(v.getId()==R.id.button){
+            Intent intent = new Intent(MainActivity.this, testAPI.class);
+            startActivity(intent);
+        }
+        else if(v.getId()==R.id.btn_test_inscription){
+            Intent intent = new Intent(MainActivity.this, InscriptionActivity.class);
+            startActivity(intent);
+        }
         //if (v.getId()==R.id.main_btn_rdv_history){
 
         //}
