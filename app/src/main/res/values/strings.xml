@@ -18,4 +18,5 @@
     <string name="error_network">Erreur réseau. Vérifiez votre connexion.</string>
     <string name="button">Button</string>
     <string name="s_inscrire">S\'inscrire</string>
+    <string name="camera_permission_denied">Permission caméra refusée.</string>
 </resources>
