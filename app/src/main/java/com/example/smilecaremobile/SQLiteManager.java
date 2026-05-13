@@ -29,7 +29,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     // Infos de la base de données
     // -------------------------------------------------------
     private static final String NOM_BD  = "smilecare.db";
-    private static final int    VERSION = 1;
+    private static final int    VERSION = 2;
     private static SQLiteManager sqLiteManager;
 
     // -------------------------------------------------------
@@ -47,6 +47,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static final String UTIL_ID                = "id_utilisateur";
     public static final String UTIL_NOM               = "nom";
     public static final String UTIL_PRENOM            = "prenom";
+    public static final String UTIL_EMAIL             = "email";
     public static final String UTIL_PHOTO             = "photo";
     public static final String UTIL_DATE_NAISSANCE    = "date_naissance";
     public static final String UTIL_ADRESSE           = "adresse";
@@ -136,6 +137,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         sb.append(UTIL_ID + " INTEGER PRIMARY KEY, ");
         sb.append(UTIL_NOM + " VARCHAR(100) NOT NULL, ");
         sb.append(UTIL_PRENOM + " VARCHAR(100) NOT NULL, ");
+        sb.append(UTIL_EMAIL + " VARCHAR(255) NOT NULL, ");
         sb.append(UTIL_PHOTO + " VARCHAR(255), ");
         sb.append(UTIL_DATE_NAISSANCE + " DATE, ");
         sb.append(UTIL_ADRESSE + " VARCHAR(255) NOT NULL, ");
@@ -223,6 +225,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         values.put(UTIL_NOM, utilisateur.getNom());
         values.put(UTIL_PRENOM, utilisateur.getPrenom());
         values.put(UTIL_PHOTO, utilisateur.getPhoto());
+        values.put(UTIL_EMAIL, utilisateur.getEmail());
         if (utilisateur.getDate_naissance() != null) {
             values.put(UTIL_DATE_NAISSANCE, utilisateur.getDate_naissance().getTime());
         }

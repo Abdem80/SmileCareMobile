@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <!-- Permission Internet pour l'API -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -34,5 +37,7 @@
         <activity android:name=".testAPI" />
 
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
