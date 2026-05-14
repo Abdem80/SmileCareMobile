@@ -33,6 +33,7 @@ public class ProfilActivity extends AppCompatActivity {
     private ImageView ivPhoto;
     private TextView tvNom, tvPrenom, tvEmail, tvAdresse, tvTelephone, tvAssurance;
     private Button btnDeconnexion;
+    private Button btnModifier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,17 @@ public class ProfilActivity extends AppCompatActivity {
         tvTelephone  = findViewById(R.id.tv_profil_telephone);
         tvAssurance  = findViewById(R.id.tv_profil_assurance);
         btnDeconnexion = findViewById(R.id.btn_deconnexion);
+        btnModifier = findViewById(R.id.btn_modifier);
+
 
         afficherProfil();
 
         btnDeconnexion.setOnClickListener(v -> deconnecter());
+
+        btnModifier.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfilActivity.this, ModifierProfilActivity.class);
+            startActivity(intent);
+        });
     }
 
     /**
