@@ -105,7 +105,10 @@ public class InscriptionActivity extends AppCompatActivity {
                         4
                 );
                 SQLiteManager db = SQLiteManager.instanceOfDatabase(this);
-                db.insertUtilisateur(nouvelUtilisateur);
+
+                long idInsere = db.insertUtilisateur(nouvelUtilisateur);
+                SessionManager sessionManager = new SessionManager(this);
+                sessionManager.sauvegarderSession(idInsere);
 
                 API api = new API();
 
@@ -130,7 +133,7 @@ public class InscriptionActivity extends AppCompatActivity {
                             Toast.makeText(InscriptionActivity.this,
                                     getString(R.string.inscription_succes),
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(InscriptionActivity.this, MainActivity.class);
+                            Intent intent = new Intent(InscriptionActivity.this, ProfilActivity.class);
                             startActivity(intent);
                             finish();
                         });

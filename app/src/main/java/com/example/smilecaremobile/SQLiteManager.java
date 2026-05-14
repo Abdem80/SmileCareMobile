@@ -15,8 +15,11 @@ package com.example.smilecaremobile;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.Date;
 
 /**
  * Gestionnaire de la base de données locale SQLite de SmileCare.
@@ -217,8 +220,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * Insère un nouvel utilisateur dans la base de données locale.
      *
      * @param utilisateur L'objet Utilisateur à insérer
+     * @return L'ID de l'utilisateur inséré, ou -1 si échec
      */
-    public void insertUtilisateur(Utilisateur utilisateur) {
+    public long insertUtilisateur(Utilisateur utilisateur) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -235,7 +239,50 @@ public class SQLiteManager extends SQLiteOpenHelper {
         values.put(UTIL_NUM_ASSURANCE, utilisateur.getNum_assurance());
         values.put(UTIL_ID_ROLE, utilisateur.getId_role());
 
-        db.insert(TABLE_UTILISATEUR, null, values);
+        long id = db.insert(TABLE_UTILISATEUR, null, values);
         db.close();
+        return id;
+    }
+
+    /**
+     * Récupère un utilisateur depuis la BD locale par son ID.
+     *
+     * @param id Identifiant de l'utilisateur
+     * @return L'objet Utilisateur trouvé, ou null si inexistant
+     */
+    public Utilisateur getUtilisateur(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                TABLE_UTILISATEUR,
+                null,
+                UTIL_ID + " = ?",
+                new String[]{String.valueOf(id)},
+                null, null, null
+        );
+
+        if (cursor.moveToFirst()) {
+            Utilisateur u = new Utilisateur(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(UTIL_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_NOM)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_PRENOM)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_EMAIL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_PHOTO)),
+                    new Date(cursor.getLong(cursor.getColumnIndexOrThrow(UTIL_DATE_NAISSANCE))),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_ADRESSE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_TELEPHONE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_MDP)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_NUM_ASSURANCE)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(UTIL_ID_ROLE))
+            );
+            cursor.close();
+            db.close();
+            return u;
+        }
+
+        cursor.close();
+        db.close();
+        return null;
     }
 }
+

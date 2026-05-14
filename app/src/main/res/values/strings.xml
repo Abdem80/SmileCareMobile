@@ -19,4 +19,8 @@
     <string name="button">Button</string>
     <string name="s_inscrire">S\'inscrire</string>
     <string name="camera_permission_denied">Permission caméra refusée.</string>
+    <string name="titre_profil">Mon compte</string>
+    <string name="btn_deconnexion">Se déconnecter</string>
+    <string name="error_session">Aucune session active.</string>
+    <string name="error_charger_client">Impossible de charger le profil.</string>
 </resources>
