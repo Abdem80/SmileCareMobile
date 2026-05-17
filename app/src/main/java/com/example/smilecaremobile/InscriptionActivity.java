@@ -122,13 +122,17 @@ public class InscriptionActivity extends AppCompatActivity {
                     jsonBody.put("dateNaissance", etDateNaissance.getText().toString().trim());
                     jsonBody.put("addresse", nouvelUtilisateur.getAdresse());
                     jsonBody.put("telephone", nouvelUtilisateur.getTelephone());
+                    jsonBody.put("num_assurance", nouvelUtilisateur.getNum_assurance());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 api.post(new API.ApiCallback() {
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(String response) throws JSONException {
+                        JSONObject json = new JSONObject(response);
+                        long idCentral = json.getLong("id");
+                        sessionManager.sauvegarderIdCentral(idCentral);
                         runOnUiThread(() -> {
                             Toast.makeText(InscriptionActivity.this,
                                     getString(R.string.inscription_succes),

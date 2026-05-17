@@ -20,6 +20,9 @@
         android:theme="@style/Theme.SmileCareMobile"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ModifierProfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfilActivity"
             android:exported="false" />
         <activity

@@ -284,5 +284,28 @@ public class SQLiteManager extends SQLiteOpenHelper {
         db.close();
         return null;
     }
+
+    /**
+     * Met à jour les informations d'un utilisateur dans la BD locale.
+     *
+     * @param utilisateur L'objet Utilisateur avec les nouvelles données
+     */
+    public void modifierUtilisateur(Utilisateur utilisateur) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(UTIL_NOM, utilisateur.getNom());
+        values.put(UTIL_PRENOM, utilisateur.getPrenom());
+        values.put(UTIL_EMAIL, utilisateur.getEmail());
+        values.put(UTIL_PHOTO, utilisateur.getPhoto());
+        values.put(UTIL_ADRESSE, utilisateur.getAdresse());
+        values.put(UTIL_TELEPHONE, utilisateur.getTelephone());
+        values.put(UTIL_NUM_ASSURANCE, utilisateur.getNum_assurance());
+
+        db.update(TABLE_UTILISATEUR, values,
+                UTIL_ID + " = ?",
+                new String[]{String.valueOf(utilisateur.getId_utilisateur())});
+        db.close();
+    }
 }
 

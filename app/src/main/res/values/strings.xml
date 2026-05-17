@@ -23,4 +23,14 @@
     <string name="btn_deconnexion">Se déconnecter</string>
     <string name="error_session">Aucune session active.</string>
     <string name="error_charger_client">Impossible de charger le profil.</string>
+    <string name="titre_modifier_profil">Modifier mon profil</string>
+    <string name="btn_sauvegarder">Sauvegarder</string>
+    <string name="profil_modifie_succes">Profil modifié avec succès !</string>
+    <string name="btn_modifier">Modifier mon profil</string>
+    <string name="btn_desactiver">Désactiver mon compte</string>
+    <string name="titre_desactiver">Désactiver le compte</string>
+    <string name="message_desactiver">Es-tu sûr de vouloir désactiver ton compte ? Cette action est irréversible.</string>
+    <string name="oui">Oui</string>
+    <string name="non">Non</string>
+    <string name="compte_desactive_succes">Compte désactivé avec succès.</string>
 </resources>

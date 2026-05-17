@@ -27,7 +27,8 @@ import java.io.InputStreamReader;
  * Basé sur le stockage de fichiers interne vu au cours 11.
  */
 public class SessionManager {
-    private static final String NOM_FICHIER = "session.txt";
+    private static final String NOM_FICHIER         = "session.txt";
+    private static final String NOM_FICHIER_CENTRAL = "session_central.txt";
     private Context context;
 
     public SessionManager(Context context) {
@@ -69,10 +70,44 @@ public class SessionManager {
     }
 
     /**
+     * Sauvegarde l'ID central (BD Laravel) de l'utilisateur connecté.
+     *
+     * @param id ID retourné par l'API après l'inscription
+     */
+    public void sauvegarderIdCentral(long id) {
+        try {
+            FileOutputStream fos = context.openFileOutput(NOM_FICHIER_CENTRAL, Context.MODE_PRIVATE);
+            fos.write(String.valueOf(id).getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Récupère l'ID central (BD Laravel) de l'utilisateur connecté.
+     *
+     * @return L'ID central, ou -1 si absent
+     */
+    public long getIdCentral() {
+        try {
+            FileInputStream fis = context.openFileInput(NOM_FICHIER_CENTRAL);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String idStr = br.readLine();
+            fis.close();
+            return Long.parseLong(idStr);
+        } catch (IOException e) {
+            return -1;
+        }
+    }
+
+    /**
      * Supprime le fichier de session lors de la déconnexion.
      */
     public void supprimerSession() {
         context.deleteFile(NOM_FICHIER);
+        context.deleteFile(NOM_FICHIER_CENTRAL);
     }
 
     /**
