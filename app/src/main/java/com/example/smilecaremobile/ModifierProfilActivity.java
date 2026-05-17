@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -147,6 +148,11 @@ public class ModifierProfilActivity extends AppCompatActivity {
      * Envoie les modifications à l'API Laravel via PUT.
      */
     private void envoyerAPI() {
+        // TODO : Décommenter quand api.put() sera disponible dans API.java
+        /*
+        SessionManager session = new SessionManager(this);
+        long idCentral = session.getIdCentral();
+
         API api = new API();
         JSONObject jsonBody = new JSONObject();
         try {
@@ -160,33 +166,38 @@ public class ModifierProfilActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // TODO : Décommenter quand api.put() sera disponible dans API.java
-        /*
-        api.put(new API.ApiCallback() {
+        api.getToken(new API.ApiCallback() {
             @Override
-            public void onSuccess(String response) {
-                runOnUiThread(() -> {
-                    Toast.makeText(ModifierProfilActivity.this,
-                            getString(R.string.profil_modifie_succes),
-                            Toast.LENGTH_SHORT).show();
-                    finish();
-                });
+            public void onSuccess(String token) {
+                api.put(new API.ApiCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(ModifierProfilActivity.this,
+                                    getString(R.string.profil_modifie_succes),
+                                    Toast.LENGTH_SHORT).show();
+                            finish();
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        runOnUiThread(() -> Toast.makeText(ModifierProfilActivity.this,
+                                getString(R.string.error_network),
+                                Toast.LENGTH_SHORT).show());
+                    }
+                }, "api/utilisateurEdit/" + idCentral, jsonBody.toString(), token);
             }
 
             @Override
             public void onFailure(String error) {
-                runOnUiThread(() -> {
-                    Toast.makeText(ModilerProfilActivity.this,
-                            getString(R.string.error_network),
-                            Toast.LENGTH_SHORT).show();
-                });
+                runOnUiThread(() -> Toast.makeText(ModifierProfilActivity.this,
+                        getString(R.string.error_network),
+                        Toast.LENGTH_SHORT).show());
             }
-        }, "api/utilisateurUpdate/" + clientActuel.getId_utilisateur(), jsonBody.toString(), token);
+        });
         */
 
-
-        // Note : API.java ne supporte pas PUT pour l'instant
-        // On affiche le succès de la BD locale
         Toast.makeText(this, getString(R.string.profil_modifie_succes), Toast.LENGTH_SHORT).show();
         finish();
     }

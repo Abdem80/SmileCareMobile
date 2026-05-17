@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -34,7 +35,7 @@ public class ProfilActivity extends AppCompatActivity {
     private TextView tvNom, tvPrenom, tvEmail, tvAdresse, tvTelephone, tvAssurance;
     private Button btnDeconnexion;
     private Button btnModifier;
-
+    private Button btnDesactiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class ProfilActivity extends AppCompatActivity {
         tvAssurance  = findViewById(R.id.tv_profil_assurance);
         btnDeconnexion = findViewById(R.id.btn_deconnexion);
         btnModifier = findViewById(R.id.btn_modifier);
-
+        btnDesactiver = findViewById(R.id.btn_desactiver);
 
         afficherProfil();
 
@@ -60,6 +61,8 @@ public class ProfilActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfilActivity.this, ModifierProfilActivity.class);
             startActivity(intent);
         });
+
+        btnDesactiver.setOnClickListener(v -> confirmerDesactivation());
     }
 
     /**
@@ -108,5 +111,65 @@ public class ProfilActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+
+    /**
+     * Affiche une boîte de dialogue de confirmation avant de désactiver le compte.
+     */
+    private void confirmerDesactivation() {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.titre_desactiver))
+                .setMessage(getString(R.string.message_desactiver))
+                .setPositiveButton(getString(R.string.oui), (dialog, which) -> {
+                    desactiverCompte();
+                })
+                .setNegativeButton(getString(R.string.non), null)
+                .show();
+    }
+
+    /**
+     * Désactive le compte du client connecté via l'API Laravel
+     * et supprime la session locale.
+     */
+    private void desactiverCompte() {
+        SessionManager session = new SessionManager(this);
+        long id = session.getIdCentral();
+
+        API api = new API();
+        api.getToken(new API.ApiCallback() {
+            @Override
+            public void onSuccess(String token) {
+                api.delete(new API.ApiCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        runOnUiThread(() -> {
+                            session.supprimerSession();
+                            Toast.makeText(ProfilActivity.this,
+                                    getString(R.string.compte_desactive_succes),
+                                    Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ProfilActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        runOnUiThread(() -> Toast.makeText(ProfilActivity.this,
+                                getString(R.string.error_network),
+                                Toast.LENGTH_SHORT).show());
+                    }
+                }, "api/utilisateurDelete/" + id, token);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                runOnUiThread(() -> Toast.makeText(ProfilActivity.this,
+                        getString(R.string.error_network),
+                        Toast.LENGTH_SHORT).show());
+            }
+        });
     }
 }
