@@ -11,13 +11,15 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.smilecaremobile.modeles.Utilisateur;
 
 import java.util.Date;
 
@@ -308,4 +310,3 @@ public class SQLiteManager extends SQLiteOpenHelper {
         db.close();
     }
 }
-

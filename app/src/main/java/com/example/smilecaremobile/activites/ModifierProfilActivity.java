@@ -11,7 +11,7 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.Manifest;
 import android.content.Intent;
@@ -30,6 +30,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.database.SQLiteManager;
+import com.example.smilecaremobile.modeles.Utilisateur;
+import com.example.smilecaremobile.session.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

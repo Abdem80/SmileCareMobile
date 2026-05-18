@@ -1,4 +1,4 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.api;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

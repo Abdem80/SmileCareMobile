@@ -11,7 +11,7 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.Manifest;
 import android.content.Intent;
@@ -33,6 +33,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.database.SQLiteManager;
+import com.example.smilecaremobile.modeles.Utilisateur;
+import com.example.smilecaremobile.session.SessionManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +47,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 /**
  * Activité d'inscription d'un nouveau client dans SmileCare.
  * Gère la validation du formulaire, la sauvegarde en BD locale
@@ -155,6 +162,7 @@ public class InscriptionActivity extends AppCompatActivity {
             }
         });
     }
+
     /**
      * Valide les champs du formulaire d'inscription.
      * Vérifie que les champs obligatoires sont remplis et que

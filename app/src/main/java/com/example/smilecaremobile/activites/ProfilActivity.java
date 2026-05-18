@@ -11,7 +11,7 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,6 +23,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.database.SQLiteManager;
+import com.example.smilecaremobile.modeles.Utilisateur;
+import com.example.smilecaremobile.session.SessionManager;
 
 /**
  * Activité d'affichage du profil du client connecté.
@@ -36,6 +42,7 @@ public class ProfilActivity extends AppCompatActivity {
     private Button btnDeconnexion;
     private Button btnModifier;
     private Button btnDesactiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +119,6 @@ public class ProfilActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 
     /**
      * Affiche une boîte de dialogue de confirmation avant de désactiver le compte.

@@ -11,7 +11,7 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.session;
 
 import android.content.Context;
 
