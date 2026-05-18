@@ -47,7 +47,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress2"
+            android:id="@+id/email_login"
             android:layout_width="318dp"
             android:layout_height="54dp"
             android:layout_gravity="center_horizontal"
