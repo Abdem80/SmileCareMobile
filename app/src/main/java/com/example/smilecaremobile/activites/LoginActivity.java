@@ -55,8 +55,9 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONObject body = new JSONObject();
             try {
-                body.put("email", emailStr);
-                body.put("password", passwordStr);
+                body.put("courriel", emailStr);
+                body.put("mot_de_passe", passwordStr);
+                body.put("nom_token", "mobile");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -65,22 +66,24 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(String response) throws JSONException {
                     JSONObject json = new JSONObject(response);
-                    long userId = json.getLong("id");
-                    SessionManager session = new SessionManager(LoginActivity.this);
-                    session.sauvegarderSession(userId);
-                    session.sauvegarderIdCentral(userId);
-                    runOnUiThread(() -> {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                    });
+                    if (json.has("SUCCÈS")) {
+                        runOnUiThread(() -> {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        });
+                    } else {
+                        String erreur = json.optString("ERREUR", "Courriel ou mot de passe incorrect");
+                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, erreur, Toast.LENGTH_SHORT).show());
+                    }
                 }
 
                 @Override
                 public void onFailure(String error) {
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this,
-                            "Courriel ou mot de passe incorrect", Toast.LENGTH_SHORT).show());
+                            "Courriel ou mot de passe incorrect" + error, Toast.LENGTH_SHORT).show());
                 }
-            }, "api/login", body.toString(), "");
+
+            }, "api/token", body.toString(), "2|ZR8gBaWCdjb5g72ARLX4Xmuu3BQxBb051tkNihjxab4133d4");
         });
 
         //bouton creer un compte
