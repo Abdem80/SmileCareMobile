@@ -25,6 +25,15 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        //Verifie si l'utilisateur est deja connecte
+        SessionManager sessionManager = new SessionManager(this);
+        if (sessionManager.estConnecte()) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         //charger les fields
@@ -67,6 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(String response) throws JSONException {
                     JSONObject json = new JSONObject(response);
                     if (json.has("SUCCÈS")) {
+                        String token = json.getString("SUCCÈS");
+                        sessionManager.sauvegarderToken(token);
                         runOnUiThread(() -> {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
@@ -83,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                             "Courriel ou mot de passe incorrect" + error, Toast.LENGTH_SHORT).show());
                 }
 
-            }, "api/token", body.toString(), "2|ZR8gBaWCdjb5g72ARLX4Xmuu3BQxBb051tkNihjxab4133d4");
+            }, "api/token", body.toString(), "");
         });
 
         //bouton creer un compte

@@ -118,4 +118,14 @@ public class SessionManager {
     public boolean estConnecte() {
         return context.getFileStreamPath(NOM_FICHIER).exists();
     }
+
+    public void sauvegarderToken(String token) {
+        try {
+            FileOutputStream fos = context.openFileOutput("token.txt", Context.MODE_PRIVATE);
+            fos.write(token.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
