@@ -7,4 +7,111 @@
     android:layout_height="match_parent"
     tools:context=".activites.LoginActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_menu"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="49dp">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="246dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="101dp"
+                android:layout_height="104dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="350dp"
+                android:layout_height="141dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/leaguespartan_extrabold"
+                android:text="@string/app_name"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="60sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editTextTextEmailAddress2"
+            android:layout_width="318dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_roundsquare"
+            android:ems="10"
+            android:fontFamily="@font/leaguespartan_extrabold"
+            android:hint="Courriel"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/bleu_clair" />
+
+        <EditText
+            android:id="@+id/password_login"
+            android:layout_width="318dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/shape_roundsquare"
+            android:ems="10"
+            android:fontFamily="@font/leaguespartan_extrabold"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@color/bleu_clair" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="318dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_button"
+            android:fontFamily="@font/leaguespartan_extrabold"
+            android:text="Se connecter"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:fontFamily="@font/leaguespartan_extrabold"
+            android:text="Créer un compte"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:background="@null"
+            android:fontFamily="@font/leaguespartan_extrabold"
+            android:text="J'ai oublié mon mot de passe"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
