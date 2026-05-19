@@ -1,11 +1,8 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
-import android.adservices.measurement.SourceRegistrationRequest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +13,12 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.api.JSONDataExtractor;
+import com.example.smilecaremobile.modeles.Service;
+import com.example.smilecaremobile.modeles.ServicesAdapter;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;

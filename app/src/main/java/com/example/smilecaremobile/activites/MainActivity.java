@@ -16,11 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 
 import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.session.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -105,11 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
-        if(v.getId()==R.id.button){
-            intent = new Intent(MainActivity.this, testAPI.class);
-            intent.putExtra("token", token);
-        }
-        else if(v.getId()==R.id.btn_test_inscription){
+
+        if(v.getId()==R.id.btn_test_inscription){
             intent = new Intent(MainActivity.this, InscriptionActivity.class);
             intent.putExtra("token", token);
         }
