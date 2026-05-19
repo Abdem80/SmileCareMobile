@@ -11,12 +11,17 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.smilecaremobile.modeles.Utilisateur;
+
+import java.util.Date;
 
 /**
  * Gestionnaire de la base de données locale SQLite de SmileCare.
@@ -29,7 +34,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     // Infos de la base de données
     // -------------------------------------------------------
     private static final String NOM_BD  = "smilecare.db";
-    private static final int    VERSION = 1;
+    private static final int    VERSION = 2;
     private static SQLiteManager sqLiteManager;
 
     // -------------------------------------------------------
@@ -47,6 +52,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static final String UTIL_ID                = "id_utilisateur";
     public static final String UTIL_NOM               = "nom";
     public static final String UTIL_PRENOM            = "prenom";
+    public static final String UTIL_EMAIL             = "email";
     public static final String UTIL_PHOTO             = "photo";
     public static final String UTIL_DATE_NAISSANCE    = "date_naissance";
     public static final String UTIL_ADRESSE           = "adresse";
@@ -136,6 +142,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         sb.append(UTIL_ID + " INTEGER PRIMARY KEY, ");
         sb.append(UTIL_NOM + " VARCHAR(100) NOT NULL, ");
         sb.append(UTIL_PRENOM + " VARCHAR(100) NOT NULL, ");
+        sb.append(UTIL_EMAIL + " VARCHAR(255) NOT NULL, ");
         sb.append(UTIL_PHOTO + " VARCHAR(255), ");
         sb.append(UTIL_DATE_NAISSANCE + " DATE, ");
         sb.append(UTIL_ADRESSE + " VARCHAR(255) NOT NULL, ");
@@ -215,14 +222,16 @@ public class SQLiteManager extends SQLiteOpenHelper {
      * Insère un nouvel utilisateur dans la base de données locale.
      *
      * @param utilisateur L'objet Utilisateur à insérer
+     * @return L'ID de l'utilisateur inséré, ou -1 si échec
      */
-    public void insertUtilisateur(Utilisateur utilisateur) {
+    public long insertUtilisateur(Utilisateur utilisateur) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(UTIL_NOM, utilisateur.getNom());
         values.put(UTIL_PRENOM, utilisateur.getPrenom());
         values.put(UTIL_PHOTO, utilisateur.getPhoto());
+        values.put(UTIL_EMAIL, utilisateur.getEmail());
         if (utilisateur.getDate_naissance() != null) {
             values.put(UTIL_DATE_NAISSANCE, utilisateur.getDate_naissance().getTime());
         }
@@ -232,7 +241,72 @@ public class SQLiteManager extends SQLiteOpenHelper {
         values.put(UTIL_NUM_ASSURANCE, utilisateur.getNum_assurance());
         values.put(UTIL_ID_ROLE, utilisateur.getId_role());
 
-        db.insert(TABLE_UTILISATEUR, null, values);
+        long id = db.insert(TABLE_UTILISATEUR, null, values);
+        db.close();
+        return id;
+    }
+
+    /**
+     * Récupère un utilisateur depuis la BD locale par son ID.
+     *
+     * @param id Identifiant de l'utilisateur
+     * @return L'objet Utilisateur trouvé, ou null si inexistant
+     */
+    public Utilisateur getUtilisateur(long id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(
+                TABLE_UTILISATEUR,
+                null,
+                UTIL_ID + " = ?",
+                new String[]{String.valueOf(id)},
+                null, null, null
+        );
+
+        if (cursor.moveToFirst()) {
+            Utilisateur u = new Utilisateur(
+                    cursor.getInt(cursor.getColumnIndexOrThrow(UTIL_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_NOM)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_PRENOM)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_EMAIL)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_PHOTO)),
+                    new Date(cursor.getLong(cursor.getColumnIndexOrThrow(UTIL_DATE_NAISSANCE))),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_ADRESSE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_TELEPHONE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_MDP)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(UTIL_NUM_ASSURANCE)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(UTIL_ID_ROLE))
+            );
+            cursor.close();
+            db.close();
+            return u;
+        }
+
+        cursor.close();
+        db.close();
+        return null;
+    }
+
+    /**
+     * Met à jour les informations d'un utilisateur dans la BD locale.
+     *
+     * @param utilisateur L'objet Utilisateur avec les nouvelles données
+     */
+    public void modifierUtilisateur(Utilisateur utilisateur) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(UTIL_NOM, utilisateur.getNom());
+        values.put(UTIL_PRENOM, utilisateur.getPrenom());
+        values.put(UTIL_EMAIL, utilisateur.getEmail());
+        values.put(UTIL_PHOTO, utilisateur.getPhoto());
+        values.put(UTIL_ADRESSE, utilisateur.getAdresse());
+        values.put(UTIL_TELEPHONE, utilisateur.getTelephone());
+        values.put(UTIL_NUM_ASSURANCE, utilisateur.getNum_assurance());
+
+        db.update(TABLE_UTILISATEUR, values,
+                UTIL_ID + " = ?",
+                new String[]{String.valueOf(utilisateur.getId_utilisateur())});
         db.close();
     }
 }

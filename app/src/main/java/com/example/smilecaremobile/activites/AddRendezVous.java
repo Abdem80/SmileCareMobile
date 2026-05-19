@@ -1,4 +1,4 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.api.JSONDataExtractor;
+import com.example.smilecaremobile.session.SessionManager;
 
 import org.json.JSONException;
 
@@ -109,8 +114,13 @@ public class AddRendezVous extends AppCompatActivity {
 
                 System.out.println("ID service at " + servicesSpinner.getSelectedItemPosition() + " : " + idsOfServices.get(servicesSpinner.getSelectedItemPosition()));
                 System.out.println("ID dentiste at " + dentistesSpinner.getSelectedItemPosition() + " : " + idsOfDentistes.get(dentistesSpinner.getSelectedItemPosition()));
-                //ID USER WILL ALWAYS BE 1 UNTIL THE LOGIN IS PROPRELY SETUPPED
-                String body = "{\"id_user\":\"" + 1 + "\"," +
+                // On récupère l'ID de l'utilisateur connecté via le SessionManager.
+                // getIdCentral() lit le fichier session_central.txt qui a été écrit lors du login.
+                // maintenant c'est l'ID réel du client connecté.
+                SessionManager sessionManager = new SessionManager(AddRendezVous.this);
+                long idUtilisateur = sessionManager.getIdCentral();
+
+                String body = "{\"id_user\":\"" + idUtilisateur + "\"," +
                                 "\"id_dentiste\":\"" + idsOfDentistes.get(dentistesSpinner.getSelectedItemPosition()) + "\"," +
                                 "\"id_etat\":\"" + 1 + "\"," +
                                 "\"id_service\":\"" + idsOfServices.get(servicesSpinner.getSelectedItemPosition()) + "\"," +

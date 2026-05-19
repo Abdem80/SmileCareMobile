@@ -1,7 +1,6 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
 
 import org.json.JSONException;
 import org.json.JSONObject;

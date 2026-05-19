@@ -11,7 +11,7 @@
  =========================================================
  ****************************************/
 
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.modeles;
 
 import java.util.Date;
 
@@ -23,6 +23,7 @@ public class Utilisateur {
     private int id_utilisateur;
     private String nom;
     private String prenom;
+    private String email;
     private String photo;
     private Date date_naissance;
     private String adresse;
@@ -32,10 +33,11 @@ public class Utilisateur {
     private int id_role;
 
     // Constructeurs, getters et setters
-    public Utilisateur(int id_utilisateur, String nom, String prenom, String photo, Date date_naissance, String adresse, String telephone, String mdp, String num_assurance, int id_role) {
+    public Utilisateur(int id_utilisateur, String nom, String prenom, String email, String photo, Date date_naissance, String adresse, String telephone, String mdp, String num_assurance, int id_role) {
         this.id_utilisateur = id_utilisateur;
         this.nom = nom;
         this.prenom = prenom;
+        this.email = email;
         this.photo = photo;
         this.date_naissance = date_naissance;
         this.adresse = adresse;
@@ -44,10 +46,6 @@ public class Utilisateur {
         this.num_assurance = num_assurance;
         this.id_role = id_role;
     }
-
-    // Getters et setters
-
-
     public int getId_utilisateur() {
         return id_utilisateur;
     }
@@ -127,4 +125,13 @@ public class Utilisateur {
     public void setId_role(int id_role) {
         this.id_role = id_role;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

@@ -1,9 +1,7 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.session.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String token;
@@ -91,9 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //if(itemId == R.id.menu_paiements){
 
         //}
-        //if(itemId == R.id.menu_logout){
+        if(itemId == R.id.menu_logout){
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.supprimerSession();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
 
-        //}
+        }
         return super.onOptionsItemSelected(item);
     }
 
