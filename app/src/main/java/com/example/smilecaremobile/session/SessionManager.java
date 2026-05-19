@@ -108,6 +108,7 @@ public class SessionManager {
     public void supprimerSession() {
         context.deleteFile(NOM_FICHIER);
         context.deleteFile(NOM_FICHIER_CENTRAL);
+        context.deleteFile("token.txt");
     }
 
     /**
@@ -116,7 +117,7 @@ public class SessionManager {
      * @return {@code true} si une session existe, {@code false} sinon
      */
     public boolean estConnecte() {
-        return context.getFileStreamPath(NOM_FICHIER).exists();
+        return context.getFileStreamPath(NOM_FICHIER).exists() || context.getFileStreamPath("token.txt").exists();
     }
 
     public void sauvegarderToken(String token) {

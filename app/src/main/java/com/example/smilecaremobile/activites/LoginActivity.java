@@ -77,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                     JSONObject json = new JSONObject(response);
                     if (json.has("SUCCÈS")) {
                         String token = json.getString("SUCCÈS");
+
                         sessionManager.sauvegarderToken(token);
                         runOnUiThread(() -> {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
