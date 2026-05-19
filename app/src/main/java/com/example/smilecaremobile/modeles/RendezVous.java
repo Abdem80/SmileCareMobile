@@ -6,8 +6,9 @@ public class RendezVous {
     public String nomService;
     public String dateRdv;
     public String heureRdv;
+    public String dentiste;
 
-    public RendezVous(int id, String s, String dhRdv) {
+    public RendezVous(int id, String s, String dhRdv, String d) {
         idRdv = id;
         nomService = s;
 
@@ -30,11 +31,13 @@ public class RendezVous {
 
         dateRdv = tempDate.toString();
         heureRdv = tempHeure.toString();
+        dentiste = d;
     }
-    public RendezVous(int id, String s, String dRdv, String hRdv) {
+    public RendezVous(int id, String s, String dRdv, String hRdv, String d) {
         idRdv = id;
         nomService = s;
         dateRdv = dRdv;
         heureRdv = hRdv;
+        dentiste = d;
     }
 }
