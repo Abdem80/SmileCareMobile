@@ -1,9 +1,7 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.activites;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,20 +16,28 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONException;
+
+import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.session.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-    //Initialisation du menu (toolbar)
+
+        //Initialisation du menu (toolbar)
         Toolbar toolbar = findViewById(R.id.menu);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-    //Initialisation des boutons
+        //Initialisation des boutons
         ImageButton rdv_history = findViewById(R.id.main_btn_rdv_history);
         ImageButton rdv_add = findViewById(R.id.main_btn_rdv_add);
         Button services = findViewById(R.id.main_btn_services);
@@ -45,6 +51,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         local.setOnClickListener(this);
         apiTestBtn.setOnClickListener(this);
         btnInscription.setOnClickListener(this);
+
+        //API
+        API api = new API();
+        api.getToken(new API.ApiCallback() {
+            @Override
+            public void onSuccess(String response) throws JSONException {
+                runOnUiThread(() -> {
+                    MainActivity.this.token = response;
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                System.out.println(error);
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -70,9 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //if(itemId == R.id.menu_paiements){
 
         //}
-        //if(itemId == R.id.menu_logout){
+        if(itemId == R.id.menu_logout){
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.supprimerSession();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
 
-        //}
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -81,9 +107,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         if(v.getId()==R.id.button){
             intent = new Intent(MainActivity.this, testAPI.class);
+            intent.putExtra("token", token);
         }
         else if(v.getId()==R.id.btn_test_inscription){
             intent = new Intent(MainActivity.this, InscriptionActivity.class);
+            intent.putExtra("token", token);
         }
         //if (v.getId()==R.id.main_btn_rdv_history){
 
@@ -94,6 +122,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //else if (v.getId()==R.id.main_btn_services){
 
         //}
+        //else if (v.getId()==R.id.main_btn_rdv_add){
+
+        //}
+        else if (v.getId()==R.id.main_btn_services){
+            intent = new Intent(MainActivity.this, ServicesActivity.class);
+            intent.putExtra("token", token);
+        }
         //else if (v.getId()==R.id.main_btn_local){
 
         //}

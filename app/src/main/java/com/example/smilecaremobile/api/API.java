@@ -1,10 +1,7 @@
-package com.example.smilecaremobile;
-
-import android.view.PixelCopy;
+package com.example.smilecaremobile.api;
 
 import androidx.annotation.NonNull;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,7 +9,6 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,6 +44,39 @@ public class API {
                     System.out.println("Réponse GET JSON : " + jsonReponse);
                     try {
                         callback.onSuccess(jsonReponse);
+                    } catch(Exception e) {
+                        callback.onFailure("Erreur de parsing JSON");
+                    }
+                } else {
+                    callback.onFailure("Erreur: " + response.code());
+                }
+            }
+        }));
+    }
+
+    public void put(ApiCallback callback, String apiRequest, String body, String token) {
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        Request request = new Request.Builder()
+                .url(URL + apiRequest)
+                .header("Authorization", "Bearer " + token)
+                .header("Accept", "application/json")
+                .put(RequestBody.create(body, JSON))
+                .build();
+
+        client.newCall(request).enqueue((new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String jsonReponse = response.body().string();
+                    System.out.println("Réponse PUT JSON : " + jsonReponse);
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonReponse);
+                        callback.onSuccess(jsonObject.toString());
                     } catch(Exception e) {
                         callback.onFailure("Erreur de parsing JSON");
                     }
