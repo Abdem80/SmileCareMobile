@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.session.SessionManager;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -70,9 +71,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //if(itemId == R.id.menu_paiements){
 
         //}
-        //if(itemId == R.id.menu_logout){
+        if(itemId == R.id.menu_logout){
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.supprimerSession();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
 
-        //}
+        }
         return super.onOptionsItemSelected(item);
     }
 

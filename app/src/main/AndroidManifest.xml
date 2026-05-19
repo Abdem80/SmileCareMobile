@@ -20,6 +20,14 @@
         android:theme="@style/Theme.SmileCareMobile"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".activites.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activites.ModifierProfilActivity"
             android:exported="false" />
         <activity
@@ -30,13 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".activites.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Activité inscription -->
+            android:exported="false" /> <!-- Activité inscription -->
         <activity android:name=".activites.InscriptionActivity" /> <!-- Activité test API -->
         <activity android:name=".activites.testAPI" />
     </application>
