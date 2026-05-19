@@ -120,8 +120,11 @@
                 android:orientation="vertical"
                 android:background="@drawable/shape_roundsquare"
                 android:backgroundTint="@color/hospitalfashion"
-                android:layout_marginBottom="25dp">
+                android:marg="25dp">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
 
