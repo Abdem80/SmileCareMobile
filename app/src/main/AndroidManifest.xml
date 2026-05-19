@@ -19,40 +19,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmileCareMobile"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".activites.LoginActivity"
-            android:exported="true">
-            android:name=".ServicesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AddRendezVous"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="true"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
-            android:name=".activites.ModifierProfilActivity"
+            android:name=".activites.ServicesActivity"
             android:exported="false" />
-        <activity
-            android:name=".activites.ProfilActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activites.AddRendezVous"
             android:exported="false" />
+
         <activity
             android:name=".activites.MainActivity"
-            android:exported="false" /> <!-- Activité inscription -->
-        <activity android:name=".activites.InscriptionActivity" /> <!-- Activité test API -->
-        <activity android:name=".activites.testAPI" />
-        </activity> <!-- Activité inscription -->
-        <activity android:name=".InscriptionActivity" /> <!-- Activité test API -->
-        <activity android:name=".testAPI" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activites.ModifierProfilActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activites.ProfilActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activites.AddRendezVous"
+            android:exported="false" />
+
+        <activity android:name=".activites.InscriptionActivity" />  <!-- Activité inscription -->
+
+        <activity android:name=".activites.testAPI" /><!-- Activité test API -->
     </application>
 
 </manifest>

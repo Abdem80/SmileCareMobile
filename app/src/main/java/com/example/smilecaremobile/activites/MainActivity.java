@@ -16,11 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 
 import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.api.JSONDataExtractor;
 import com.example.smilecaremobile.modeles.RendezVous;
@@ -32,9 +32,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String token;
-
     private ArrayList<RendezVous> rendezVous = new ArrayList<RendezVous>();
     private API api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //API
         api = new API();
+
         api.getToken(new API.ApiCallback() {
             @Override
             public void onSuccess(String response) throws JSONException {
@@ -86,44 +87,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Initialisation des Rendez-Vous
         SessionManager sessionManager = new SessionManager(this);
         long id = sessionManager.getIdUtilisateur();
-        api.getToken(new API.ApiCallback() {
+
+        api.get(new API.ApiCallback() {
             @Override
             public void onSuccess(String response) throws JSONException {
-                runOnUiThread(() -> {
-                    MainActivity.this.token = response;
+                String data = JSONDataExtractor.Extract("data", response);
+                ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
+                ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
+                ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
 
-                    api.get(new API.ApiCallback() {
-                        @Override
-                        public void onSuccess(String response) throws JSONException {
-                            String data = JSONDataExtractor.Extract("data", response);
-                            ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
-                            ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
-                            ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
+                System.out.println(idsRdv.toString());
+                System.out.println(rdvService.toString());
+                System.out.println(dhRdv.toString());
 
-                            System.out.println(idsRdv.toString());
-                            System.out.println(rdvService.toString());
-                            System.out.println(dhRdv.toString());
-
-                            for(int i = 0; i < idsRdv.size(); i++) {
-                                MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(String error) {
-                            System.out.println("Could not get rdv");
-                        }
-                    }, "api/rendezvous/user/" + 1, token);
-                });
+                for(int i = 0; i < idsRdv.size(); i++) {
+                    MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
+                }
             }
 
             @Override
             public void onFailure(String error) {
-                runOnUiThread(() -> {
-                    System.out.println("No token generated");
-                });
+                System.out.println("Could not get rdv");
             }
-        });
+        }, "api/rendezvous/user/" + id, token);
 
         System.out.println(MainActivity.this.token);
     }
@@ -158,15 +144,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
-        if(v.getId()==R.id.button){
-            intent = new Intent(MainActivity.this, testAPI.class);
-            intent.putExtra("token", token);
-        }
-        else if(v.getId()==R.id.btn_test_inscription){
+
+        if(v.getId()==R.id.btn_test_inscription){
             intent = new Intent(MainActivity.this, InscriptionActivity.class);
             intent.putExtra("token", token);
         }
         //if (v.getId()==R.id.main_btn_rdv_history){
+
+        //}
+        else if (v.getId()==R.id.main_btn_rdv_add){
+            intent = new Intent(MainActivity.this, AddRendezVous.class);
+        }
+        //else if (v.getId()==R.id.main_btn_services){
 
         //}
         //else if (v.getId()==R.id.main_btn_rdv_add){

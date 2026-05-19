@@ -1,4 +1,4 @@
-package com.example.smilecaremobile;
+package com.example.smilecaremobile.modeles;
 
 public class Service {
     private int id_service;
