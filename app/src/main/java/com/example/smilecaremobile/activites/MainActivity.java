@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<RendezVous> rendezVous = new ArrayList<RendezVous>();
     private API api;
-    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnInscription.setOnClickListener(this);
 
         //API
-        API api = new API();
+        api = new API();
         api.getToken(new API.ApiCallback() {
             @Override
             public void onSuccess(String response) throws JSONException {
@@ -85,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     //Initialisation des Rendez-Vous
-        api = new API();
-
         SessionManager sessionManager = new SessionManager(this);
         long id = sessionManager.getIdUtilisateur();
         api.getToken(new API.ApiCallback() {

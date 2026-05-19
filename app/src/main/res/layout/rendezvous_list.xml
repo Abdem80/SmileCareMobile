@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:paddingVertical="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,20 +15,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Service" />
+            android:text="Service"
+            android:padding="5dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="@drawable/shape_squareround"
+            android:backgroundTint="@color/bluey" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Date" />
+            android:text="Date"
+            android:padding="5dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="@drawable/shape_squareround"
+            android:backgroundTint="@color/bluey"/>
 
         <TextView
             android:id="@+id/heure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Heure" />
+            android:text="Heure"
+            android:padding="5dp"
+            android:layout_marginHorizontal="2dp"
+            android:background="@drawable/shape_squareround"
+            android:backgroundTint="@color/bluey"/>
+
+        <ImageButton
+            android:id="@+id/deleteRdv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_squareround"
+            android:backgroundTint="@color/bluey"
+            android:padding="5dp"
+            android:tint="@color/black"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
