@@ -32,10 +32,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String token;
-
     private ArrayList<RendezVous> rendezVous = new ArrayList<RendezVous>();
     private API api;
-    private String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnInscription.setOnClickListener(this);
 
         //API
-        API api = new API();
+        api = new API();
+
         api.getToken(new API.ApiCallback() {
             @Override
             public void onSuccess(String response) throws JSONException {
@@ -85,48 +85,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     //Initialisation des Rendez-Vous
-        api = new API();
-
         SessionManager sessionManager = new SessionManager(this);
         long id = sessionManager.getIdUtilisateur();
-        api.getToken(new API.ApiCallback() {
+
+        api.get(new API.ApiCallback() {
             @Override
             public void onSuccess(String response) throws JSONException {
-                runOnUiThread(() -> {
-                    MainActivity.this.token = response;
+                String data = JSONDataExtractor.Extract("data", response);
+                ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
+                ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
+                ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
 
-                    api.get(new API.ApiCallback() {
-                        @Override
-                        public void onSuccess(String response) throws JSONException {
-                            String data = JSONDataExtractor.Extract("data", response);
-                            ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
-                            ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
-                            ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
+                System.out.println(idsRdv.toString());
+                System.out.println(rdvService.toString());
+                System.out.println(dhRdv.toString());
 
-                            System.out.println(idsRdv.toString());
-                            System.out.println(rdvService.toString());
-                            System.out.println(dhRdv.toString());
-
-                            for(int i = 0; i < idsRdv.size(); i++) {
-                                MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(String error) {
-                            System.out.println("Could not get rdv");
-                        }
-                    }, "api/rendezvous/user/" + 1, token);
-                });
+                for(int i = 0; i < idsRdv.size(); i++) {
+                    MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
+                }
             }
 
             @Override
             public void onFailure(String error) {
-                runOnUiThread(() -> {
-                    System.out.println("No token generated");
-                });
+                System.out.println("Could not get rdv");
             }
-        });
+        }, "api/rendezvous/user/" + id, token);
 
         System.out.println(MainActivity.this.token);
     }

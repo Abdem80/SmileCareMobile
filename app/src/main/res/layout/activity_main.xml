@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activites.MainActivity"
     android:background="@color/lighttooth">
 
     <androidx.appcompat.widget.Toolbar
@@ -119,8 +119,7 @@
                 android:layout_height="315dp"
                 android:orientation="vertical"
                 android:background="@drawable/shape_roundsquare"
-                android:backgroundTint="@color/hospitalfashion"
-                android:marg="25dp">
+                android:backgroundTint="@color/hospitalfashion">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
