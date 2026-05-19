@@ -98,16 +98,20 @@ public class InscriptionActivity extends AppCompatActivity {
             String cheminPhoto = photoUri != null ? photoUri.toString() : "";
 
             if (validerFormulaire()) {
+                // Capturer les valeurs avant les appels async
+                String emailStr = etEmail.getText().toString().trim();
+                String passwordStr = etMdp.getText().toString().trim();
+
                 Utilisateur nouvelUtilisateur = new Utilisateur(
                         0,
                         etNom.getText().toString().trim(),
                         etPrenom.getText().toString().trim(),
-                        etEmail.getText().toString().trim(),
+                        emailStr,
                         cheminPhoto,
                         dateNaissance,
                         etAdresse.getText().toString().trim(),
                         etTelephone.getText().toString().trim(),
-                        etMdp.getText().toString().trim(),
+                        passwordStr,
                         etNumAssurance.getText().toString().trim(),
                         4
                 );
@@ -117,14 +121,12 @@ public class InscriptionActivity extends AppCompatActivity {
                 SessionManager sessionManager = new SessionManager(this);
                 sessionManager.sauvegarderSession(idInsere);
 
-                API api = new API();
-
                 JSONObject jsonBody = new JSONObject();
                 try {
                     jsonBody.put("name", nouvelUtilisateur.getNom());
                     jsonBody.put("prenom", nouvelUtilisateur.getPrenom());
-                    jsonBody.put("email", nouvelUtilisateur.getEmail());
-                    jsonBody.put("password", nouvelUtilisateur.getMdp());
+                    jsonBody.put("email", emailStr);
+                    jsonBody.put("password", passwordStr);
                     jsonBody.put("id_role", 4);
                     jsonBody.put("dateNaissance", etDateNaissance.getText().toString().trim());
                     jsonBody.put("addresse", nouvelUtilisateur.getAdresse());
@@ -134,29 +136,58 @@ public class InscriptionActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                api.post(new API.ApiCallback() {
+                new API().post(new API.ApiCallback() {
                     @Override
                     public void onSuccess(String response) throws JSONException {
                         JSONObject json = new JSONObject(response);
                         long idCentral = json.getLong("id");
                         sessionManager.sauvegarderIdCentral(idCentral);
-                        runOnUiThread(() -> {
-                            Toast.makeText(InscriptionActivity.this,
-                                    getString(R.string.inscription_succes),
-                                    Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(InscriptionActivity.this, ProfilActivity.class);
-                            startActivity(intent);
-                            finish();
-                        });
+
+                        // Chaîner l'appel token après la création du compte
+                        JSONObject tokenBody = new JSONObject();
+                        try {
+                            tokenBody.put("courriel", emailStr);
+                            tokenBody.put("mot_de_passe", passwordStr);
+                            tokenBody.put("nom_token", "mobile");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        new API().post(new API.ApiCallback() {
+                            @Override
+                            public void onSuccess(String tokenResponse) throws JSONException {
+                                JSONObject tokenJson = new JSONObject(tokenResponse);
+                                if (tokenJson.has("SUCCÈS")) {
+                                    sessionManager.sauvegarderToken(tokenJson.getString("SUCCÈS"));
+                                }
+                                runOnUiThread(() -> {
+                                    Toast.makeText(InscriptionActivity.this,
+                                            getString(R.string.inscription_succes),
+                                            Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(InscriptionActivity.this, MainActivity.class));
+                                    finish();
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(String error) {
+                                // Compte créé mais token indisponible — naviguer quand même
+                                runOnUiThread(() -> {
+                                    Toast.makeText(InscriptionActivity.this,
+                                            getString(R.string.inscription_succes),
+                                            Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(InscriptionActivity.this, MainActivity.class));
+                                    finish();
+                                });
+                            }
+                        }, "api/token", tokenBody.toString(), "");
                     }
 
                     @Override
                     public void onFailure(String error) {
-                        runOnUiThread(() -> {
-                            Toast.makeText(InscriptionActivity.this,
-                                    getString(R.string.error_network),
-                                    Toast.LENGTH_SHORT).show();
-                        });
+                        runOnUiThread(() -> Toast.makeText(InscriptionActivity.this,
+                                getString(R.string.error_network) + error,
+                                Toast.LENGTH_SHORT).show());
                     }
                 }, "api/utilisateurAdd", jsonBody.toString(), "");
             }
