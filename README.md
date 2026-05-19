@@ -8,10 +8,10 @@ SmileCare Mobile est l'application Android développée dans le cadre du projet 
 
 | Membre | Initiales | Fonctionnalités développées (Mobile) |
 |---|---|---|
-| **Sèdrick Zahn** | SZT | Authentification mobile (Login + MFA), intégration API Google Maps |
-| **Bernardo Gonçalves da Cruz** | BGDC | Activité principale (MainActivity), activité traitements/services |
+| **Sèdrick Zahn** | SZT | Authentification mobile (Login + layouts), corrections SessionManager |
+| **Bernardo Gonçalves Da Cruz** | BGDC | Activité principale (MainActivity), activité traitements/services |
 | **Abdoulaye Dembele** | AD | Inscription client (MGC01), profil client (MGC02), modification profil (MGC03), désactivation compte, caméra (MFI04), BD locale SQLite, gestion de session |
-| **Alexandre Doe-Langevin** | ADL | Connexion BD centrale, gestion rendez-vous mobile (CRUD) |
+| **Alexandre Doe-Langevin** | ADL | Connexion BD centrale via API, gestion rendez-vous mobile (création + consultation), edit utilisateur, peaufinage API |
 
 ---
 
@@ -20,12 +20,11 @@ SmileCare Mobile est l'application Android développée dans le cadre du projet 
 ### Gestion du compte client (MGC) — Abdoulaye
 - **MGC01** — Inscription d'un nouveau client avec validation des champs et photo de profil (caméra)
 - **MGC02** — Affichage du profil du client connecté depuis la BD locale
-- **MGC03** — Modification du profil client (nom, prénom, courriel, adresse, téléphone, assurance)
+- **MGC03** — Modification du profil client (nom, prénom, courriel, adresse, téléphone, assurance) via requête PUT à l'API
 - **MGC03** — Désactivation du compte client avec confirmation (AlertDialog)
 
-### Capteurs (MFI) — Abdoulaye / Sèdrick
-- **MFI04** — Permission et utilisation de la caméra pour la photo de profil
-- **MFI05** — Permission GPS et localisation de la clinique via Google Maps (Sèdrick)
+### Capteurs (MFI) — Abdoulaye
+- **MFI04** — Permission et utilisation de la caméra pour la photo de profil à l'inscription
 
 ### Base de données locale SQLite — Abdoulaye
 - BD SQLite locale avec toutes les tables du système
@@ -37,14 +36,24 @@ SmileCare Mobile est l'application Android développée dans le cadre du projet 
 - Extraction de données JSON via `JSONDataExtractor.java`
 - Inscription client via `POST /api/utilisateurAdd`
 - Désactivation compte via `DELETE /api/utilisateurDelete/{id}`
+- Connexion à la BD centrale et récupération des données via l'API Laravel
+
+### Gestion des rendez-vous — Alexandre
+- Création d'un rendez-vous depuis l'application mobile (`AddRendezVous.java`)
+- Consultation de la liste des rendez-vous de l'utilisateur connecté
 
 ### Interface principale — Bernardo
 - `MainActivity` — écran d'accueil avec navigation vers les fonctionnalités
+- `ServicesActivity` — activité des traitements/services offerts par la clinique
 - Layout et structure de base de l'application
 
 ### Authentification — Sèdrick
-- Login avec MFA (en cours)
-- Layouts pages login et récupération de mot de passe
+- Login avec redirection selon le rôle de l'utilisateur
+- Layouts et activities pour la page de connexion
+- Corrections des activities d'authentification (obtention du token du nouvel utilisateur)
+- Corrections du SessionManager (erreurs lors de la sauvegarde)
+
+> ⚠️ **Non complété (priorité 2) :** MFA, récupération de mot de passe, intégration API Google Maps.
 
 ---
 
@@ -61,8 +70,15 @@ L'application communique avec le serveur Laravel SmileCare.
 |---|---|---|---|
 | `POST` | `/api/utilisateurAdd` | Créer un compte client | ❌ Public |
 | `GET` | `/api/utilisateur/{id}` | Consulter un utilisateur | ✅ Token |
-| `PUT` | `/api/utilisateurEdit/{id}` | Modifier un utilisateur | ✅ Token — ⚠️ non implémenté dans API.java |
+| `PUT` | `/api/utilisateurEdit/{id}` | Modifier un utilisateur | ✅ Token |
 | `DELETE` | `/api/utilisateurDelete/{id}` | Désactiver un compte | ✅ Token |
+
+### Rendez-vous
+
+| Méthode | Endpoint | Description | Auth |
+|---|---|---|---|
+| `POST` | `/api/rendezVousAdd` | Créer un rendez-vous | ✅ Token |
+| `GET` | `/api/rendezVous/{id}` | Consulter les rendez-vous | ✅ Token |
 
 ### Authentification
 
@@ -97,7 +113,8 @@ app/src/main/java/com/example/smilecaremobile/
     ├── InscriptionActivity.java      — MGC01 — Inscription + caméra
     ├── ProfilActivity.java           — MGC02 — Affichage profil
     ├── ModifierProfilActivity.java   — MGC03 — Modification profil
-    ├── AddRendezVous.java            — Ajout de rendez-vous
+    ├── ServicesActivity.java         — Activité traitements/services
+    ├── AddRendezVous.java            — Ajout et consultation de rendez-vous
     └── testAPI.java                  — Écran de test API
 ```
 
@@ -181,11 +198,10 @@ dependencies {
 
 ## 🔧 Pistes d'amélioration
 
-- **Méthode PUT dans API.java** — pour synchroniser les modifications de profil avec la BD centrale
 - **Upload photo vers le serveur** — nécessite un endpoint multipart côté Laravel
-- **Authentification complète** — finaliser le login MFA côté mobile (Sèdrick)
-- **Gestion des rendez-vous** — finaliser le CRUD mobile (Alexandre)
-- **Activité services** — finaliser l'affichage des traitements (Bernardo)
+- **Authentification MFA** — finaliser le login MFA côté mobile (Sèdrick)
+- **API Google Maps** — intégrer la localisation de la clinique (Sèdrick)
+- **Récupération de mot de passe** — finaliser les pages et la logique côté mobile (Sèdrick)
 - **Notifications Android** — notifier le client lors d'un nouveau rendez-vous
 - **Tests automatisés** — ajouter des tests unitaires Android (JUnit)
 
@@ -200,5 +216,5 @@ dependencies {
 | **SQLite** | Base de données locale |
 | **OkHttp** | Communication HTTP avec l'API |
 | **Laravel Sanctum** | Authentification par token |
-| **Google Maps API** | Localisation de la clinique (MFI05) |
+| **Google Maps API** | Localisation de la clinique — *non finalisé* |
 | **Git / GitHub** | Gestion de version et collaboration |
