@@ -18,10 +18,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.smilecaremobile.R;
+import com.example.smilecaremobile.api.API;
+import com.example.smilecaremobile.api.JSONDataExtractor;
+import com.example.smilecaremobile.modeles.RendezVous;
 import com.example.smilecaremobile.session.SessionManager;
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ArrayList<RendezVous> rendezVous = new ArrayList<RendezVous>();
+    private API api;
+    private String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +62,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+    //Initialisation des Rendez-Vous
+        api = new API();
+
+        SessionManager sessionManager = new SessionManager(this);
+        long id = sessionManager.getIdUtilisateur();
+        api.getToken(new API.ApiCallback() {
+            @Override
+            public void onSuccess(String response) throws JSONException {
+                runOnUiThread(() -> {
+                    MainActivity.this.token = response;
+
+                    api.get(new API.ApiCallback() {
+                        @Override
+                        public void onSuccess(String response) throws JSONException {
+                            String data = JSONDataExtractor.Extract("data", response);
+                            ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
+                            ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
+                            ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
+
+                            System.out.println(idsRdv.toString());
+                            System.out.println(rdvService.toString());
+                            System.out.println(dhRdv.toString());
+
+                            for(int i = 0; i < idsRdv.size(); i++) {
+                                MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            System.out.println("Could not get rdv");
+                        }
+                    }, "api/rendezvous/user/" + 1, token);
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+                runOnUiThread(() -> {
+                    System.out.println("No token generated");
+                });
+            }
+        });
+
+        System.out.println(MainActivity.this.token);
     }
 
     @Override
