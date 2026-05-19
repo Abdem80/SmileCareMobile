@@ -54,6 +54,39 @@ public class API {
         }));
     }
 
+    public void put(ApiCallback callback, String apiRequest, String body, String token) {
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        Request request = new Request.Builder()
+                .url(URL + apiRequest)
+                .header("Authorization", "Bearer " + token)
+                .header("Accept", "application/json")
+                .put(RequestBody.create(body, JSON))
+                .build();
+
+        client.newCall(request).enqueue((new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e.getMessage());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String jsonReponse = response.body().string();
+                    System.out.println("Réponse PUT JSON : " + jsonReponse);
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonReponse);
+                        callback.onSuccess(jsonObject.toString());
+                    } catch(Exception e) {
+                        callback.onFailure("Erreur de parsing JSON");
+                    }
+                } else {
+                    callback.onFailure("Erreur: " + response.code());
+                }
+            }
+        }));
+    }
+
     public void post(ApiCallback callback, String apiRequest, String body, String token) {
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         Request request = new Request.Builder()
