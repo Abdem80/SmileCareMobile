@@ -2,57 +2,97 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="15dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
-        <TextView
-            android:id="@+id/nomService"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Service"
-            android:padding="5dp"
-            android:layout_marginHorizontal="2dp"
             android:background="@drawable/shape_squareround"
-            android:backgroundTint="@color/bluey" />
+            android:backgroundTint="@color/hospitalfashion"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Date"
-            android:padding="5dp"
-            android:layout_marginHorizontal="2dp"
-            android:background="@drawable/shape_squareround"
-            android:backgroundTint="@color/bluey"/>
+            <TextView
+                android:id="@+id/nomService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_squareround"
+                android:backgroundTint="@color/bluey"
+                android:fontFamily="@font/leaguespartan_bold"
+                android:padding="5dp"
+                android:text="Service test"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
 
-        <TextView
-            android:id="@+id/heure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Heure"
-            android:padding="5dp"
-            android:layout_marginHorizontal="2dp"
-            android:background="@drawable/shape_squareround"
-            android:backgroundTint="@color/bluey"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/deleteRdv"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_squareround"
-            android:backgroundTint="@color/bluey"
-            android:padding="5dp"
-            android:tint="@color/black"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/dateRdv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/leaguespartan_bold"
+                        android:paddingEnd="2dp"
+                        android:text="Durée : TEST"
+                        android:textAlignment="center"
+                        android:textColor="@color/bluepain" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:id="@+id/heureRdv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/leaguespartan_bold"
+                        android:paddingStart="2dp"
+                        android:text="Catégorie : TEST"
+                        android:textAlignment="center"
+                        android:textColor="@color/bluepain" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/dentitseRdv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/leaguespartan_bold"
+                    android:paddingBottom="2dp"
+                    android:text="TEST"
+                    android:textAlignment="center"
+                    android:textColor="@color/bluepain" />
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

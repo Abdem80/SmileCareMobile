@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONException;
 
@@ -24,6 +26,8 @@ import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.api.JSONDataExtractor;
 import com.example.smilecaremobile.modeles.RendezVous;
+import com.example.smilecaremobile.modeles.RendezVousAdapter;
+import com.example.smilecaremobile.modeles.ServicesAdapter;
 import com.example.smilecaremobile.session.SessionManager;
 
 import org.json.JSONException;
@@ -69,6 +73,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(String response) throws JSONException {
                 runOnUiThread(() -> {
                     MainActivity.this.token = response;
+
+        //Initialisation des Rendez-Vous
+                    SessionManager sessionManager = new SessionManager(MainActivity.this);
+                    long id = sessionManager.getIdUtilisateur();
+                    System.out.println(id);
+
+                    api.get(new API.ApiCallback() {
+                        @Override
+                        public void onSuccess(String response) throws JSONException {
+                            runOnUiThread(() -> {
+                                String data = JSONDataExtractor.Extract("data", response);
+                                ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
+                                ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
+                                ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
+                                ArrayList<String> dRdv = JSONDataExtractor.ExtractList("dentiste", data);
+
+                                System.out.println(idsRdv.toString());
+                                System.out.println(rdvService.toString());
+                                System.out.println(dhRdv.toString());
+
+                                for (int i = 0; i < idsRdv.size(); i++) {
+                                    MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i), dRdv.get(i)));
+                                }
+
+                                System.out.println("WORKED");
+                                RecyclerView rdvRecycler = (RecyclerView) findViewById(R.id.rdvRecyclerView);
+
+                                RendezVousAdapter rdvAdapter = new RendezVousAdapter(MainActivity.this, MainActivity.this.rendezVous);
+                                rdvRecycler.setAdapter(rdvAdapter);
+                                rdvRecycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                            });
+                        }
+
+                        @Override
+                        public void onFailure(String error) {
+                            runOnUiThread(() -> {
+                                System.out.println("Could not get rdv");
+                            });
+                        }
+                    }, "api/rendezvous/user/" + 1, token);
                 });
             }
 
@@ -83,35 +127,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-    //Initialisation des Rendez-Vous
-        SessionManager sessionManager = new SessionManager(this);
-        long id = sessionManager.getIdUtilisateur();
-
-        api.get(new API.ApiCallback() {
-            @Override
-            public void onSuccess(String response) throws JSONException {
-                String data = JSONDataExtractor.Extract("data", response);
-                ArrayList<String> idsRdv = JSONDataExtractor.ExtractList("id", data);
-                ArrayList<String> rdvService = JSONDataExtractor.ExtractList("service", data);
-                ArrayList<String> dhRdv = JSONDataExtractor.ExtractList("heure_date", data);
-
-                System.out.println(idsRdv.toString());
-                System.out.println(rdvService.toString());
-                System.out.println(dhRdv.toString());
-
-                for(int i = 0; i < idsRdv.size(); i++) {
-                    MainActivity.this.rendezVous.add(new RendezVous(Integer.parseInt(idsRdv.get(i)), rdvService.get(i), dhRdv.get(i)));
-                }
-            }
-
-            @Override
-            public void onFailure(String error) {
-                System.out.println("Could not get rdv");
-            }
-        }, "api/rendezvous/user/" + id, token);
-
-        System.out.println(MainActivity.this.token);
     }
 
     @Override
