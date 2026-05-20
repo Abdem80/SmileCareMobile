@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(this, InscriptionActivity.class)));
 
         //bouton mot de passe oublie
-        //btnForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
+        btnForgotPassword.setOnClickListener(v -> startActivity(new Intent(this, ForgotPasswordActivity.class)));
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
