@@ -21,6 +21,15 @@
         android:usesCleartextTraffic="true">
 
         <activity
+            android:name=".activites.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.VerificationCodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.NouveauMotDePasseActivity"
+            android:exported="false" />
+        <activity
             android:name=".activites.LoginActivity"
             android:exported="true">
             <intent-filter>
