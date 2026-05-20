@@ -22,7 +22,12 @@
 
         <activity
             android:name=".activites.LoginActivity"
-            android:exported="true"/>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activites.ServicesActivity"
@@ -34,12 +39,7 @@
 
         <activity
             android:name=".activites.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
 
         <activity
             android:name=".activites.ModifierProfilActivity"
@@ -47,10 +47,6 @@
 
         <activity
             android:name=".activites.ProfilActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activites.AddRendezVous"
             android:exported="false" />
 
         <activity android:name=".activites.InscriptionActivity" />  <!-- Activité inscription -->
