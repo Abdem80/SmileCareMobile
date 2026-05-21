@@ -23,14 +23,10 @@ import org.json.JSONException;
 
 import com.example.smilecaremobile.R;
 import com.example.smilecaremobile.api.API;
-import com.example.smilecaremobile.api.API;
 import com.example.smilecaremobile.api.JSONDataExtractor;
 import com.example.smilecaremobile.modeles.RendezVous;
 import com.example.smilecaremobile.modeles.RendezVousAdapter;
-import com.example.smilecaremobile.modeles.ServicesAdapter;
 import com.example.smilecaremobile.session.SessionManager;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -55,15 +51,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageButton rdv_add = findViewById(R.id.main_btn_rdv_add);
         Button services = findViewById(R.id.main_btn_services);
         ImageButton local = findViewById(R.id.main_btn_local);
-        Button apiTestBtn = (Button) findViewById(R.id.button);
-        Button btnInscription = findViewById(R.id.btn_test_inscription);
 
         rdv_history.setOnClickListener(this);
         rdv_add.setOnClickListener(this);
         services.setOnClickListener(this);
         local.setOnClickListener(this);
-        apiTestBtn.setOnClickListener(this);
-        btnInscription.setOnClickListener(this);
 
         //API
         api = new API();
@@ -140,12 +132,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        //if(itemId == R.id.menu_compte){
-
-        //}
-        //if(itemId == R.id.menu_paiements){
-
-        //}
+        if(itemId == R.id.menu_compte){
+            Intent intent = new Intent(MainActivity.this, ModifierProfilActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+        }
+        if(itemId == R.id.menu_paiements){
+            Intent intent = new Intent(MainActivity.this, PaiementsActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+            finish();
+        }
         if(itemId == R.id.menu_logout){
             SessionManager sessionManager = new SessionManager(this);
             sessionManager.supprimerSession();
@@ -160,14 +157,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v){
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
 
-        if(v.getId()==R.id.btn_test_inscription){
-            intent = new Intent(MainActivity.this, InscriptionActivity.class);
-            intent.putExtra("token", token);
-        }
         //if (v.getId()==R.id.main_btn_rdv_history){
 
         //}
-        else if (v.getId()==R.id.main_btn_rdv_add){
+        if (v.getId()==R.id.main_btn_rdv_add){
             intent = new Intent(MainActivity.this, AddRendezVous.class);
         }
         //else if (v.getId()==R.id.main_btn_services){
