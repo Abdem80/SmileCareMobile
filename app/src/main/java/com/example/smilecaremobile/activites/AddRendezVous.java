@@ -52,6 +52,14 @@ public class AddRendezVous extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
+        Button btn_return = findViewById(R.id.retour);
+        btn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         api = new API();
 
         token = getIntent().getStringExtra("token");
