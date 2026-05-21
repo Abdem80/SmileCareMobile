@@ -28,6 +28,8 @@ import com.example.smilecaremobile.modeles.RendezVous;
 import com.example.smilecaremobile.modeles.RendezVousAdapter;
 import com.example.smilecaremobile.session.SessionManager;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -171,11 +173,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //}
         else if (v.getId()==R.id.main_btn_services){
             intent = new Intent(MainActivity.this, ServicesActivity.class);
-            intent.putExtra("token", token);
         }
         //else if (v.getId()==R.id.main_btn_local){
 
         //}
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }

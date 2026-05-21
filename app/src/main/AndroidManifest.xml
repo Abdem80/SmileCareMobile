@@ -22,6 +22,19 @@
         <activity
             android:name=".activites.PaiementsActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".activites.ForgotPasswordActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activites.VerificationCodeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activites.NouveauMotDePasseActivity"
+            android:exported="false" />
+
         <activity
             android:name=".activites.LoginActivity"
             android:exported="true">
@@ -31,24 +44,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activites.ServicesActivity"
             android:exported="false" />
+
         <activity
             android:name=".activites.AddRendezVous"
             android:exported="false" />
-        <activity
-            android:name=".activites.AddRendezVous"
-            android:exported="false" />
+
         <activity
             android:name=".activites.MainActivity"
-            android:exported="true"></activity>
+            android:exported="false"/>
+
         <activity
             android:name=".activites.ModifierProfilActivity"
             android:exported="false" />
+
         <activity
             android:name=".activites.ProfilActivity"
             android:exported="false" />
+
         <activity android:name=".activites.InscriptionActivity" /> <!-- Activité inscription -->
         <activity android:name=".activites.testAPI" />
     </application>
