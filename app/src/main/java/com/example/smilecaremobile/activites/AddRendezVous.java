@@ -1,6 +1,10 @@
 package com.example.smilecaremobile.activites;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -8,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,6 +46,11 @@ public class AddRendezVous extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //Initialisation du menu (toolbar)
+        Toolbar toolbar = findViewById(R.id.menu);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
 
         api = new API();
 
@@ -142,5 +153,37 @@ public class AddRendezVous extends AppCompatActivity {
                 }, "api/rendezvous", body, token);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_options, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if(itemId == R.id.menu_compte){
+            Intent intent = new Intent(AddRendezVous.this, ModifierProfilActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+        }
+        if(itemId == R.id.menu_paiements){
+            Intent intent = new Intent(AddRendezVous.this, PaiementsActivity.class);
+            intent.putExtra("token", token);
+            startActivity(intent);
+            finish();
+        }
+        if(itemId == R.id.menu_logout){
+            SessionManager sessionManager = new SessionManager(this);
+            sessionManager.supprimerSession();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

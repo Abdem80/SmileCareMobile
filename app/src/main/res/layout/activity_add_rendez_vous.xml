@@ -6,56 +6,135 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRendezVous">
+    tools:context=".activites.AddRendezVous"
+    android:background="@color/lighttooth">
+
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/menu"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_menu"
+      app:titleTextColor="@color/white"
+      app:popupTheme="@style/toolbarStyle"
+      android:gravity="center_vertical"
+      android:elevation="4dp">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/app_name"
+        android:textSize="35sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/leaguespartan_extrabold"/>
+  </androidx.appcompat.widget.Toolbar>
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
+      android:layout_height="650dp"
+      android:orientation="vertical"
+      android:gravity="center"
+      app:layout_constraintTop_toBottomOf="@+id/menu">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/shape_roundsquare"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Nouveau rendez-vous"
+          android:textColor="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_extrabold"
+          android:textSize="25dp"/>
+
+      <LinearLayout
+          android:layout_width="350dp"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:gravity="center_horizontal"
+          android:paddingHorizontal="20dp">
 
       <Spinner
           android:id="@+id/services"
           android:layout_width="match_parent"
-          android:layout_height="50dp" />
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:layout_margin="5dp"
+          android:background="@drawable/shape_squareround"
+          android:backgroundTint="@color/hospitalfashion"
+          android:textColor="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_bold"/>
 
       <Spinner
           android:id="@+id/dentistes"
           android:layout_width="match_parent"
-          android:layout_height="50dp" />
+          android:layout_height="wrap_content"
+          android:padding="5dp"
+          android:layout_margin="5dp"
+          android:background="@drawable/shape_squareround"
+          android:backgroundTint="@color/hospitalfashion"
+          android:textColor="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_bold"/>
 
       <EditText
           android:id="@+id/dateRDV"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:ems="10"
-          android:hint="Date du rendez-vous" />
+          android:layout_margin="5dp"
+          android:padding="5dp"
+          android:hint="Date du rendez-vous"
+          android:background="@drawable/shape_squareround"
+          android:backgroundTint="@color/hospitalfashion"
+          android:textColor="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_bold"/>
 
       <EditText
           android:id="@+id/commentaire"
           android:layout_width="match_parent"
-          android:layout_height="145dp"
-          android:ems="10"
+          android:layout_height="100dp"
+          android:layout_margin="5dp"
+          android:padding="5dp"
           android:hint="Commentaires"
           android:inputType="text"
-          android:gravity="top|start"/>
+          android:gravity="top|start"
+          android:background="@drawable/shape_squareround"
+          android:backgroundTint="@color/hospitalfashion"
+          android:textColor="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_bold"/>
 
       <Button
           android:id="@+id/sendRDV"
-          android:layout_width="match_parent"
+          android:layout_width="200dp"
           android:layout_height="wrap_content"
+          android:backgroundTint="@color/bluepain"
+          android:fontFamily="@font/leaguespartan_bold"
+          android:textSize="19sp"
           android:text="Envoyer" />
-
+      </LinearLayout>
     </LinearLayout>
 
     <Button
         android:id="@+id/retour"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/bluepain"
+        android:fontFamily="@font/leaguespartan_bold"
+        android:textSize="19sp"
         android:text="Retour" />
 
   </LinearLayout>
