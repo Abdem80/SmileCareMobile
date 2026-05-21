@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(v.getId()==R.id.btn_test_inscription){
             intent = new Intent(MainActivity.this, InscriptionActivity.class);
-            intent.putExtra("token", token);
         }
         //if (v.getId()==R.id.main_btn_rdv_history){
 
@@ -178,11 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //}
         else if (v.getId()==R.id.main_btn_services){
             intent = new Intent(MainActivity.this, ServicesActivity.class);
-            intent.putExtra("token", token);
         }
         //else if (v.getId()==R.id.main_btn_local){
 
         //}
+        intent.putExtra("token", token);
         startActivity(intent);
     }
 }
